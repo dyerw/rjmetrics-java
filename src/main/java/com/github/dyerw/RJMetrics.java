@@ -1,5 +1,7 @@
 package com.github.dyerw;
 
+import com.github.dyerw.UpsertCompletionHandler;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -22,7 +24,9 @@ public class RJMetrics<T> {
         this.clientId = clientId;
     }
 
-    public void upsert(List<T> data, String tableName, List<String> keys) {
+
+
+    public void upsert(List<T> data, String tableName, List<String> keys, final UpsertCompletionHandler completionHandler) {
         List<RJMetricsRequest<T>> requests = new ArrayList<RJMetricsRequest<T>>();
 
         for (T singleData: data) {
@@ -50,13 +54,13 @@ public class RJMetrics<T> {
 
             @Override
             public Response onCompleted(Response response) throws Exception {
-                System.out.println(response.toString());
+                completionHandler.onCompleted(response.toString());
                 return response;
             }
 
             @Override
             public void onThrowable(Throwable t) {
-                System.out.println(t.toString());
+                System.err.println(t.toString());
             }
 
         });

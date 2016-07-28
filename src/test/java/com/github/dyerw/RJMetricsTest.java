@@ -41,7 +41,12 @@ public class RJMetricsTest {
         dummyDataList.add(new DummyData("b", 2));
         dummyDataList.add(new DummyData("c", 3));
 
-        rjMetrics.upsert(dummyDataList, "dummy_data", new ArrayList<String>(Arrays.asList("id")));
+        rjMetrics.upsert(dummyDataList, "dummy_data", new ArrayList<String>(Arrays.asList("id")), new UpsertCompletionHandler() {
+            @Override
+            public void onCompleted(String response) {
+                System.out.println(response);
+            }
+        });
 
         Thread.sleep(10000);
     }
