@@ -44,6 +44,7 @@ dummyDataList.add(new DummyData("c", 3));
 
 
 // Use the upsert function to get them into Redshift :)
+// You need to give it your data list, the table name, the list of keys, and a callback handler
 rjMetrics.upsert(dummyDataList, "dummy_data", new ArrayList<String>(Arrays.asList("id")), new UpsertCompletionHandler() {
     @Override
     public void onCompleted(String response) {
